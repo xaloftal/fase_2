@@ -12,6 +12,8 @@
 #define MAXTIME 9
 #define MAXJOB 9
 
+//comentario
+
 typedef struct Job
 {
 	int nmrJob;
