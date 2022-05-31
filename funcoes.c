@@ -24,6 +24,7 @@ int ultimaOp(job* lista)
 	return ultimo;
 }
 
+/*
 job* ordemCrescente(job* lista)
 {
 	int troca;
@@ -137,6 +138,7 @@ job* ordemCrescenteMaquina (job* lista)
 
 	return lista;
 }
+*/ //tentativa de criação de duas funções de ordenação
 
 void listarJob(job* lista)
 {
@@ -152,18 +154,89 @@ void listarJob(job* lista)
 	}
 }
 
-void listarUmJob(job* lista, int numJob)
+job* removerJob(job* lista, int numJob)
 {
-	job* inicio = lista;
+	job* jobAtual = lista, * jobAnterior = NULL;
+	int i=0;
 
-	while (lista != NULL)
+	while (jobAtual != NULL)
 	{
-		if (lista->nmrJob == numJob)
+
+		if (jobAtual->nmrJob == numJob) //se for logo a primeira
 		{
-			printf("J: %d // O: %d // M: %d // T: %d\n", inicio->nmrJob, inicio->nmrOperacao, inicio->maquina, inicio->unidadeTempo);
-			inicio = inicio->seguinte;
+			jobAtual = jobAtual->seguinte;
+			free(jobAtual);
 		}
-		else inicio = inicio->seguinte;
+
+		else //se for no meio da lista
+		{
+			jobAnterior = lista;
+			jobAtual = jobAtual->seguinte;
+
+			while (jobAtual != NULL && jobAtual->nmrJob != numJob)
+			{
+				jobAnterior = jobAtual;
+				jobAtual = jobAtual->seguinte;
+			}
+
+			if (jobAtual != NULL)
+			{
+				jobAnterior->seguinte = jobAtual->seguinte;
+				free(jobAtual);
+			}
+		}
+
+		if (jobAnterior != NULL)
+		{
+			jobAtual = jobAnterior->seguinte;
+		}
+	}
+}
+
+job* reduzirJob(job* lista, int numJobRemovido)
+{
+	job* jobAtual = lista, * jobAnterior, *novo;
+	int i = 0;
+
+	while (jobAtual != NULL)
+	{
+		if (jobAtual->nmrJob > numJobRemovido)
+		{
+			while (jobAtual != NULL)
+			{
+				novo = inserirJob(jobAtual, jobAtual->nmrJob - 1, jobAtual->nmrOperacao, jobAtual->maquina, jobAtual->unidadeTempo);
+				jobAtual = jobAtual->seguinte;
+				free(jobAtual);
+			}
+		}
+
+		else
+		{
+			jobAnterior = lista;
+			jobAtual = jobAtual->seguinte;
+
+			while (jobAtual != NULL && jobAtual->nmrJob < numJobRemovido)
+			{
+				jobAnterior = jobAtual;
+				jobAtual = jobAtual->seguinte;
+			}
+			if (jobAtual != NULL)
+			{
+				for (i = 0; i == 0; i++) //vai correr apenas uma vez este código.
+				{
+					novo = inserirJob(jobAtual, jobAtual->nmrJob-1, jobAtual->nmrOperacao, jobAtual->maquina, jobAtual->unidadeTempo);
+					jobAnterior->seguinte = novo;
+					jobAtual = jobAtual->seguinte;
+					free(jobAtual);
+				}
+				if (jobAtual->nmrJob > numJobRemovido)
+				{
+					novo = inserirJob(jobAtual, jobAtual->nmrJob - 1, jobAtual->nmrOperacao, jobAtual->maquina, jobAtual->unidadeTempo);
+					jobAtual = jobAtual->seguinte;
+					free(jobAtual);
+				}
+			}
+		}
 	}
 }
 

@@ -80,6 +80,7 @@ void main()
 		case 1: //listar
 			system("cls");
 			printf("-------------* Listar os jobs *-------------\n\n");
+			//lista = ordemCrescente(lista);
 			listarJob(lista);
 			pressione();
 			break;
@@ -97,7 +98,7 @@ void main()
 			printf("-------------* Remover um job *-------------\n\n");
 			listarJob(lista);
 			printf("\n\n");
-
+			lista = removerJ(lista);
 			break;
 
 		case 4: //alterar

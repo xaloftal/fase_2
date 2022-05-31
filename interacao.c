@@ -49,7 +49,7 @@ job* inserirJ(job* inicio)
 
 		} while (maisO == 1);
 
-		printf("\n\n\nDeseja adicionar mais alguma operação ao job?\n1-sim ; 0 - Não\nOpção: ");
+		printf("\n\n\nDeseja adicionar mais alguma operação ao job?\n1 - Sim ; 0 - Não\nOpção: ");
 		scanf("%d", &maisJ);
 
 		while (maisJ != 0 && maisJ != 1)
@@ -61,4 +61,33 @@ job* inserirJ(job* inicio)
 
 	pressione();
 	return(inicio);
+}
+
+job* removerJ(job* lista)
+{
+	int jobRemover, mais = 1;
+
+	do
+	{
+		printf("Job a remover: ");
+		scanf("%d", &jobRemover);
+
+		int ver = verificarJobExistente(lista, jobRemover);
+
+		while (ver != 1)
+		{
+			printf("\n\nO job %d não existe na lista ligada.\nInsira um job válido para remover: ", jobRemover);
+			scanf("%d", &jobRemover);
+			ver = verificarJobExistente(lista, jobRemover);
+		}
+
+		lista = removerJob(lista, jobRemover); 
+		//maneira de reduzir os números dos jobs anteriores!!!!!
+		lista = reduzirJob(lista, jobRemover);
+
+		printf("Remover mais algum job?\n1 - Sim; 0 - Não\nOPção: ");
+		scanf("%d", &mais);
+	} 
+	while (mais == 1);
+	return lista;
 }
