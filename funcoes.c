@@ -157,10 +157,10 @@ void listarJob(job* lista)
 job* removerJob(job* lista, int numJob)
 {
 	job* jobAtual = lista, * jobAnterior = NULL;
-	int i=0;
 
 	while (jobAtual != NULL)
 	{
+		jobAtual = lista;
 
 		if (jobAtual->nmrJob == numJob) //se for logo a primeira
 		{
@@ -184,11 +184,6 @@ job* removerJob(job* lista, int numJob)
 				jobAnterior->seguinte = jobAtual->seguinte;
 				free(jobAtual);
 			}
-		}
-
-		if (jobAnterior != NULL)
-		{
-			jobAtual = jobAnterior->seguinte;
 		}
 	}
 }
