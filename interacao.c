@@ -153,7 +153,7 @@ job* removerO(job*inicio, int numJob)
 
 		while (ver != 1)
 		{
-			printf("\n\nA operação %d não existe no job %d.\nInsira um job válido para remover: ", opRemover, numJob);
+			printf("\n\nA operação %d não existe no job %d.\nInsira uma operação válido para remover: ", opRemover, numJob);
 			scanf("%d", &opRemover);
 			ver = verificarOpExistente(inicio, numJob, opRemover);
 		}
@@ -210,6 +210,66 @@ job* inserirM(job* inicio, int numJob, int numOp)
 		}
 
 	} while (maisO == 1);
+
+	pressione();
+	return inicio;
+}
+
+job* removerM(job* inicio, int numJob, int numOp)
+{
+	int maqRemover, mais = 1;
+
+	do
+	{
+		printf("Máquina da operação %d do job %d a remover: ", numOp,numJob);
+		scanf("%d", &maqRemover);
+
+		int ver = verificarMaqExistente(inicio, numJob, numOp, maqRemover);
+
+		while (ver != 1)
+		{
+			printf("\n\nA máquina %d não existe na operação %d do job %d.\nInsira uma máquina válida para remover: ", maqRemover, numOp,numJob);
+			scanf("%d", &maqRemover);
+			ver = verificarMaqExistente(inicio, numJob, numOp, maqRemover);
+		}
+
+		inicio = removerMaquina(inicio, numJob,numOp, maqRemover);
+
+		printf("\n\nRemover mais alguma máquina da operação %d do job %d?\n1 - Sim; 0 - Não\nOpção: ",numOp ,numJob);
+		scanf("%d", &mais);
+	} while (mais == 1);
+
+	pressione();
+	return inicio;
+}
+
+job* alterarM(job* inicio, int numJob, int numOp)
+{
+	int maqAlterar, mais = 1, temp;
+
+	do
+	{
+		printf("Máquina da operação %d do job %d a alterar: ", numOp, numJob);
+		scanf("%d", &maqAlterar);
+
+		int ver = verificarMaqExistente(inicio, numJob, numOp, maqAlterar);
+
+		while (ver != 1)
+		{
+			printf("\n\nA máquina %d não existe na operação %d do job %d.\nInsira uma máquina válida para alterar: ", maqAlterar, numOp, numJob);
+			scanf("%d", &maqAlterar);
+			ver = verificarMaqExistente(inicio, numJob, numOp, maqAlterar);
+		}
+
+		printf("\nTempo de processamento novo: ");
+		scanf("%d", &temp);
+
+		inicio = removerMaquina(inicio, numJob, numOp, maqAlterar);
+		inicio = inserirJob(inicio, numJob, numOp, maqAlterar, temp);
+
+		printf("\n\nAlterar mais alguma máquina da operação %d do job %d?\n1 - Sim; 0 - Não\nOpção: ", numOp, numJob);
+		scanf("%d", &mais);
+	} while (mais == 1);
 
 	pressione();
 	return inicio;

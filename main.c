@@ -138,11 +138,10 @@ void main()
 					case 2:
 						s = 1;
 						system("cls");
-						printf("-------------* Inserir uma operação em J%d *-------------\n\n", qJob);
+						printf("-------------* Remover uma operação em J%d *-------------\n\n", qJob);
 						listarJob(lista);
 						printf("\n\n");
 						lista = removerO(lista, qJob);
-
 						break;
 					case 3: //alterar operação
 						s = 1;
@@ -175,14 +174,21 @@ void main()
 
 								case 2:
 									i = 1;
-									//remover máquina
+									system("cls");
+									printf("-------------* Inserir uma máquina em O%d do J%d *-------------\n\n", qOp, qJob);
+									listarJob(lista);
+									printf("\n\n");
+									lista = removerM(lista, qJob, qOp);
 
 									break;
 
 								case 3:
 									i = 1;
-									//alterar máquina
-									//para alterar é necessário criar uma lista com todos os valores e mudar o tempo. eliminar o original.
+									system("cls");
+									printf("-------------* Alterar uma máquina em O%d do J%d *-------------\n\n", qOp, qJob);
+									listarJob(lista);
+									printf("\n\n");
+									lista = alterarM(lista, qJob, qOp);
 									break;
 
 								case 0:

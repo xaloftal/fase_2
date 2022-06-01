@@ -8,9 +8,6 @@
 #define _CRT_SECURE_NO_DEPRECATE
 #define _CRT_NONSTDC_NO_DEPRECATE
 #define MAXMACHINE 9 
-#define MAXOPERATION 9
-#define MAXTIME 9
-#define MAXJOB 9
 
 typedef struct Job
 {
@@ -25,18 +22,19 @@ typedef struct Job
 job* inserirJob(job* inicio, int numeroJob, int numeroOp, int numeroMaq, int numeroTemp);
 job* removerJob(job* lista, int numJob);
 job* removerOperacao(job* inicio, int numJob, int numOp);
+job* removerMaquina(job* inicio, int numJob, int numOp, int numMaq);
 
 //funções de listar
 void listarJob(job* lista);
 
 //funções para interação com utilizador
-job* inserirJ(job* inicio); //recolhe valores para inserir novo job
+job* inserirJ(job* inicio);
 job* removerJ(job* lista);
 job* inserirO(job* lista, int numJob);
 job* removerO(job* inicio, int numJob);
 job* inserirM(job* inicio, int numJob, int numOp);
-int alteracaoO(job* lista, int job, int op);
-int alteracaoJ(job* lista,int job);
+job* removerM(job* inicio, int numJob, int numOp);
+job* alterarM(job* inicio, int numJob, int numOp);
 int qualJob();
 int qualOp(job* lista, int job);
 
@@ -46,7 +44,7 @@ job* lerFicheiro();
 
 //funções de recolher informações automático
 int ultimoJob(job* lista);
-int ultimaOp(job* lista);
+int ultimaOp(job* lista, int numJob);
 
 //funções para verificar a existência de job ou operações
 int verificarJobExistente(job*lista, int numJob);
@@ -56,3 +54,5 @@ int verificarMaqExistente(job* lista, int numJob, int numOp, int numMaq);
 //funções de menu
 void pressione();
 int menu();
+int alteracaoO(job* lista, int job, int op);
+int alteracaoJ(job* lista,int job);

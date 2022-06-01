@@ -118,6 +118,41 @@ job* removerOperacao(job* inicio, int numJob, int numOp)
 	return(inicio);
 }
 
+job* removerMaquina(job* inicio, int numJob, int numOp, int numMaq)
+{
+	job* jobAnterior, * jobAtual = inicio;
+
+	while (jobAtual != NULL)
+	{
+		jobAtual = inicio;
+
+		if (inicio->nmrJob == numJob && numOp == inicio->nmrJob && inicio->maquina == numMaq)
+		{
+			inicio = jobAtual->seguinte;
+			free(jobAtual);
+		}
+		else
+		{
+			jobAnterior = inicio;
+			jobAtual = jobAtual->seguinte;
+
+			while ((jobAtual != NULL) && (jobAtual->nmrOperacao != numOp || jobAtual->nmrJob != numJob || jobAtual->maquina != numMaq))
+			{
+				jobAnterior = jobAtual;
+				jobAtual = jobAtual->seguinte;
+			}
+
+			if (jobAtual != NULL)
+			{
+				jobAnterior->seguinte = jobAtual->seguinte;
+				free(jobAtual);
+
+			}
+		}
+	}
+	return(inicio);
+}
+
 job* inserirJob(job* inicio, int numeroJob, int numeroOp, int numeroMaq, int numeroTemp)
 {
 	int i = 0;
