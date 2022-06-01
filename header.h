@@ -24,7 +24,7 @@ typedef struct Job
 //funções para manipular os jobs
 job* inserirJob(job* inicio, int numeroJob, int numeroOp, int numeroMaq, int numeroTemp);
 job* removerJob(job* lista, int numJob);
-job* reduzirJob(job* lista, int numJobRemovido);
+job* removerOperacao(job* inicio, int numJob, int numOp);
 
 //funções de listar
 void listarJob(job* lista);
@@ -33,6 +33,7 @@ void listarJob(job* lista);
 job* inserirJ(job* inicio); //recolhe valores para inserir novo job
 job* removerJ(job* lista);
 job* inserirO(job* lista, int numJob);
+job* removerO(job* inicio, int numJob);
 job* inserirM(job* inicio, int numJob, int numOp);
 int alteracaoO(job* lista, int job, int op);
 int alteracaoJ(job* lista,int job);

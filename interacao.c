@@ -83,7 +83,6 @@ job* removerJ(job* lista)
 		}
 
 		lista = removerJob(lista, jobRemover); 
-		//lista = reduzirJob(lista, jobRemover);
 
 		printf("\n\nRemover mais algum job?\n1 - Sim; 0 - Não\nOpção: ");
 		scanf("%d", &mais);
@@ -136,6 +135,34 @@ job* inserirO(job* inicio, int numJob)
 		}
 
 	} while (maisO == 1);
+
+	pressione();
+	return inicio;
+}
+
+job* removerO(job*inicio, int numJob)
+{
+	int opRemover, mais = 1;
+
+	do
+	{
+		printf("Operação do job %d a remover: ", numJob);
+		scanf("%d", &opRemover);
+
+		int ver = verificarOpExistente(inicio,numJob, opRemover);
+
+		while (ver != 1)
+		{
+			printf("\n\nA operação %d não existe no job %d.\nInsira um job válido para remover: ", opRemover, numJob);
+			scanf("%d", &opRemover);
+			ver = verificarOpExistente(inicio, numJob, opRemover);
+		}
+
+		inicio = removerOperacao(inicio, numJob, opRemover);
+
+		printf("\n\nRemover mais alguma operação do job %d?\n1 - Sim; 0 - Não\nOpção: ", numJob);
+		scanf("%d", &mais);
+	} while (mais == 1);
 
 	pressione();
 	return inicio;

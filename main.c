@@ -137,7 +137,11 @@ void main()
 						break;
 					case 2:
 						s = 1;
-						//remover operação
+						system("cls");
+						printf("-------------* Inserir uma operação em J%d *-------------\n\n", qJob);
+						listarJob(lista);
+						printf("\n\n");
+						lista = removerO(lista, qJob);
 
 						break;
 					case 3: //alterar operação

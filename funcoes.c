@@ -49,15 +49,14 @@ job* removerJob(job* lista, int numJob)
 		if (numJob == lista->nmrJob) 
 		{ 
 			lista = jobAtual->seguinte;
-			free(jobAtual); //Vai liberar espaço onde essa operação está alocada
+			free(jobAtual); 
 		}
 		else 
-		{ //Remove as seguintes ocurrências
+		{ 
 			jobAnterior = lista;
-			jobAtual = jobAnterior->seguinte;
 
 			while ((jobAtual != NULL) && (jobAtual->nmrJob != numJob)) 
-			{
+			{				
 				jobAnterior = jobAtual;
 
 				if (jobAnterior->nmrJob > numJob) 
@@ -68,21 +67,61 @@ job* removerJob(job* lista, int numJob)
 				jobAtual = jobAtual->seguinte;
 			}
 
-			if (jobAtual != NULL) {
+			if (jobAtual != NULL) 
+			{
 				jobAnterior->seguinte = jobAtual->seguinte;
 				free(jobAtual);
 
 			}
 		}
 	}
-
 	return(lista);
+}
+
+job* removerOperacao(job* inicio, int numJob, int numOp)
+{
+	job* jobAnterior, * jobAtual = inicio;
+
+	while (jobAtual != NULL)
+	{
+		jobAtual = inicio;
+
+		if (inicio->nmrJob == numJob && numOp == inicio->nmrJob)
+		{
+			inicio = jobAtual->seguinte;
+			free(jobAtual);
+		}
+		else
+		{
+			jobAnterior = inicio;
+
+			while ((jobAtual != NULL) && (jobAtual->nmrOperacao != numOp || jobAtual->nmrJob != numJob))
+			{
+				jobAnterior = jobAtual;
+
+				if (jobAnterior->nmrOperacao > numOp && jobAnterior->nmrJob == numJob)
+				{
+					jobAnterior->nmrOperacao = jobAnterior->nmrOperacao - 1;
+				}
+
+				jobAtual = jobAtual->seguinte;
+			}
+
+			if (jobAtual != NULL) 
+			{
+				jobAnterior->seguinte = jobAtual->seguinte;
+				free(jobAtual);
+
+			}
+		}
+	}
+	return(inicio);
 }
 
 job* inserirJob(job* inicio, int numeroJob, int numeroOp, int numeroMaq, int numeroTemp)
 {
 	int i = 0;
-	job* novo = malloc(sizeof(job));
+	job* novo = malloc(sizeof(job)), *ptr;
 
 	if (novo != NULL)
 	{
@@ -91,7 +130,30 @@ job* inserirJob(job* inicio, int numeroJob, int numeroOp, int numeroMaq, int num
 		novo->maquina = numeroMaq;
 		novo->unidadeTempo = numeroTemp;
 		novo->seguinte = inicio;
-		return(novo);
 	}
-	else return (inicio);
+	
+	if (inicio == NULL) 
+	{
+		inicio = novo;
+	}
+	
+	else if (novo->nmrJob <= inicio->nmrJob) 
+	{
+		novo->seguinte = inicio;
+		inicio = novo;
+	}
+	
+	else 
+	{
+		ptr = inicio;
+		
+		while (ptr->seguinte != NULL && ptr->seguinte->nmrJob <= novo->nmrJob) 
+		{
+			ptr = ptr->seguinte;
+		}
+
+		novo->seguinte = ptr->seguinte;
+		ptr->seguinte = novo;
+	}
+	return (inicio);
 }
