@@ -57,7 +57,8 @@ job* inserirJ(job* inicio)
 			printf("\n\nOpção inválida.\nQuer adicionar mais alguma operação ao job atual?\n1 - Sim; 0 - Não\nOpção: ");
 			scanf("%d", &maisJ);
 		}
-	} while (maisJ == 1);
+	} 
+	while (maisJ == 1);
 
 	pressione();
 	return(inicio);
@@ -82,12 +83,107 @@ job* removerJ(job* lista)
 		}
 
 		lista = removerJob(lista, jobRemover); 
-		//maneira de reduzir os números dos jobs anteriores!!!!!
-		lista = reduzirJob(lista, jobRemover);
+		//lista = reduzirJob(lista, jobRemover);
 
-		printf("Remover mais algum job?\n1 - Sim; 0 - Não\nOPção: ");
+		printf("\n\nRemover mais algum job?\n1 - Sim; 0 - Não\nOpção: ");
 		scanf("%d", &mais);
 	} 
 	while (mais == 1);
+
+	pressione();
 	return lista;
+}
+
+job* inserirO(job* inicio, int numJob)
+{
+	int novoJob = numJob, novaOperacao = ultimaOp(inicio, numJob) +1, novaMaquina, novoTempo, maisO = 1;
+
+	printf("\nJob: %d", novoJob);
+	printf("\nOperação: %d", novaOperacao);
+
+	do
+	{
+		printf("\nMáquina: ");
+		scanf("%d", &novaMaquina);
+
+		int verMaq = verificarMaqExistente(inicio, novoJob, novaOperacao, novaMaquina);
+
+		while (novaMaquina > MAXMACHINE)
+		{
+			printf("\n\nA máquina %d não existe. \nInsira outra máquina: ", novaMaquina);
+			scanf("%d", &novaMaquina);
+		}
+
+		while (verMaq == 1)
+		{
+			printf("\n\nA máquina %d já se encontra associada à operação %d. \nInsira outra máquina: ", novaMaquina, novaOperacao);
+			scanf("%d", &novaMaquina);
+			verMaq = verificarMaqExistente(inicio, novoJob, novaOperacao, novaMaquina);
+		}
+
+		printf("Tempo de processamento: ");
+		scanf("%d", &novoTempo);
+
+		inicio = inserirJob(inicio, novoJob, novaOperacao, novaMaquina, novoTempo);
+
+		printf("\n\n\nDeseja adicionar mais alguma máquina à operação atual?\n1 - Sim; 0 - Não\nOpção: ");
+		scanf("%d", &maisO);
+
+		while (maisO != 0 && maisO != 1)
+		{
+			printf("\n\nOpção inválida.\nQuer adicionar mais alguma máquina à operação atual?\n1 - Sim; 0 - Não\nOpção: ");
+			scanf("%d", &maisO);
+		}
+
+	} while (maisO == 1);
+
+	pressione();
+	return inicio;
+}
+
+job* inserirM(job* inicio, int numJob, int numOp)
+{
+	int novoJob = numJob, novaOperacao = numOp, novaMaquina, novoTempo, maisO = 1;
+
+	printf("\nJob: %d", novoJob);
+	printf("\nOperação: %d", novaOperacao);
+	
+	do
+	{
+		printf("\nMáquina: ");
+		scanf("%d", &novaMaquina);
+
+		int verMaq = verificarMaqExistente(inicio, novoJob, novaOperacao, novaMaquina);
+
+		while (novaMaquina > MAXMACHINE)
+		{
+			printf("\n\nA máquina %d não existe. \nInsira outra máquina: ", novaMaquina);
+			scanf("%d", &novaMaquina);
+		}
+
+		while (verMaq == 1)
+		{
+			printf("\n\nA máquina %d já se encontra associada à operação %d. \nInsira outra máquina: ", novaMaquina, novaOperacao);
+			scanf("%d", &novaMaquina);
+			verMaq = verificarMaqExistente(inicio, novoJob, novaOperacao, novaMaquina);
+		}
+
+		printf("Tempo de processamento: ");
+		scanf("%d", &novoTempo);
+
+		inicio = inserirJob(inicio, novoJob, novaOperacao, novaMaquina, novoTempo);
+
+		printf("\n\n\nDeseja adicionar mais alguma máquina à operação atual?\n1 - Sim; 0 - Não\nOpção: ");
+		scanf("%d", &maisO);
+
+		while (maisO != 0 && maisO != 1)
+		{
+			printf("\n\nOpção inválida.\nQuer adicionar mais alguma máquina à operação atual?\n1 - Sim; 0 - Não\nOpção: ");
+			scanf("%d", &maisO);
+		}
+
+	} while (maisO == 1);
+
+	pressione();
+	return inicio;
 }

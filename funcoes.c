@@ -12,13 +12,13 @@ int ultimoJob(job* lista) //vai procurar qual é o ultimo valor de job.
 	return ultimo;
 }
 
-int ultimaOp(job* lista)
+int ultimaOp(job* lista, int numJob)
 {
 	int ultimo = 0;
 
 	while (lista != NULL)
 	{
-		if (ultimo <= lista->nmrOperacao) ultimo = lista->nmrOperacao;
+		if (ultimo <= lista->nmrOperacao && numJob == lista->nmrJob) ultimo = lista->nmrOperacao;
 		lista = lista->seguinte;
 	}
 	return ultimo;
@@ -156,7 +156,7 @@ void listarJob(job* lista)
 
 job* removerJob(job* lista, int numJob)
 {
-	job* jobAtual = lista, * jobAnterior = NULL;
+	job* jobAtual = lista, * jobAnterior;
 
 	while (jobAtual != NULL)
 	{
@@ -191,7 +191,7 @@ job* removerJob(job* lista, int numJob)
 job* reduzirJob(job* lista, int numJobRemovido)
 {
 	job* jobAtual = lista, * jobAnterior, *novo;
-	int i = 0;
+	int i = 0, numJob;
 
 	while (jobAtual != NULL)
 	{
@@ -199,7 +199,8 @@ job* reduzirJob(job* lista, int numJobRemovido)
 		{
 			while (jobAtual != NULL)
 			{
-				novo = inserirJob(jobAtual, jobAtual->nmrJob - 1, jobAtual->nmrOperacao, jobAtual->maquina, jobAtual->unidadeTempo);
+				numJob = jobAtual->nmrJob - 1;
+				novo = inserirJob(jobAtual, numJob, jobAtual->nmrOperacao, jobAtual->maquina, jobAtual->unidadeTempo);
 				jobAtual = jobAtual->seguinte;
 				free(jobAtual);
 			}
@@ -219,7 +220,8 @@ job* reduzirJob(job* lista, int numJobRemovido)
 			{
 				for (i = 0; i == 0; i++) //vai correr apenas uma vez este código.
 				{
-					novo = inserirJob(jobAtual, jobAtual->nmrJob-1, jobAtual->nmrOperacao, jobAtual->maquina, jobAtual->unidadeTempo);
+					numJob = jobAtual->nmrJob - 1;
+					novo = inserirJob(jobAtual, numJob, jobAtual->nmrOperacao, jobAtual->maquina, jobAtual->unidadeTempo);
 					jobAnterior->seguinte = novo;
 					jobAtual = jobAtual->seguinte;
 					free(jobAtual);

@@ -32,6 +32,8 @@ void listarJob(job* lista);
 //funções para interação com utilizador
 job* inserirJ(job* inicio); //recolhe valores para inserir novo job
 job* removerJ(job* lista);
+job* inserirO(job* lista, int numJob);
+job* inserirM(job* inicio, int numJob, int numOp);
 int alteracaoO(job* lista, int job, int op);
 int alteracaoJ(job* lista,int job);
 int qualJob();
