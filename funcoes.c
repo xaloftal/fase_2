@@ -24,122 +24,6 @@ int ultimaOp(job* lista, int numJob)
 	return ultimo;
 }
 
-/*
-job* ordemCrescente(job* lista)
-{
-	int troca;
-	job* atual = lista;
-	job* ultima = NULL;
-
-	if (atual != NULL)
-	{
-		do
-		{
-			troca = 0;
-
-			while (atual->seguinte != NULL)
-			{
-				if (atual->nmrJob > atual->seguinte->nmrJob)
-				{
-					int jobTemp = atual->nmrJob;
-					atual->nmrJob = atual->seguinte->nmrJob;
-					atual->seguinte->nmrJob = jobTemp;
-
-					int opTemp = atual->nmrOperacao;
-					atual->nmrOperacao = atual->seguinte->nmrOperacao;
-					atual->seguinte->nmrOperacao = opTemp;
-
-					int maqTemp = atual->maquina;
-					atual->maquina = atual->seguinte->maquina;
-					atual->seguinte->maquina = maqTemp;
-
-					int temTemp = atual->unidadeTempo;
-					atual->unidadeTempo = atual->seguinte->unidadeTempo;
-					atual->seguinte->unidadeTempo = temTemp;
-
-					troca = 1;
-				}
-
-				else if (atual->nmrJob == atual->seguinte->nmrJob)
-				{
-					if (atual->nmrOperacao > atual->seguinte->nmrOperacao)
-					{
-						int opTemp1 = atual->nmrOperacao;
-						atual->nmrOperacao = atual->seguinte->nmrOperacao;
-						atual->seguinte->nmrOperacao = opTemp1;
-
-						int maqTemp1 = atual->maquina;
-						atual->maquina = atual->seguinte->maquina;
-						atual->seguinte->maquina = maqTemp1;
-
-						int temTemp1 = atual->unidadeTempo;
-						atual->unidadeTempo = atual->seguinte->unidadeTempo;
-						atual->seguinte->unidadeTempo = temTemp1;
-
-						troca = 1;
-					}
-
-					else if (atual->nmrOperacao == atual->seguinte->nmrOperacao)
-					{
-						if (atual->maquina > atual->seguinte->maquina)
-						{
-							int maqTemp2 = atual->maquina;
-							atual->maquina = atual->seguinte->maquina;
-							atual->seguinte->seguinte = maqTemp2;
-
-							int temTemp2 = atual->unidadeTempo;
-							atual->unidadeTempo = atual->seguinte->unidadeTempo;
-							atual->seguinte->unidadeTempo = temTemp2;
-
-							troca = 1;
-						}
-					}
-				}
-				atual = atual->seguinte;
-			}
-		} while (troca);
-	}
-
-	return lista;
-}
-
-job* ordemCrescenteMaquina (job* lista)
-{
-	int troca;
-	job* atual = lista;
-	job* ultima = NULL;
-
-	if (atual != NULL)
-	{
-		do
-		{
-			troca = 0;
-
-			while (atual->seguinte != NULL)
-			{
-				for (atual->nmrJob == atual->seguinte->nmrJob && atual->nmrOperacao == atual->seguinte->nmrOperacao; ;atual->seguinte == atual->seguinte->seguinte)
-				{
-					if (atual->maquina > atual->seguinte->maquina)
-					{
-						int maqTemp2 = atual->maquina;
-						atual->maquina = atual->seguinte->maquina;
-						atual->seguinte->seguinte = maqTemp2;
-
-						int temTemp2 = atual->unidadeTempo;
-						atual->unidadeTempo = atual->seguinte->unidadeTempo;
-						atual->seguinte->unidadeTempo = temTemp2;
-
-						troca = 1;
-					}
-				}
-			}
-		} while (troca);
-	}	
-
-	return lista;
-}
-*/ //tentativa de criação de duas funções de ordenação
-
 void listarJob(job* lista)
 {
 	job* inicio = lista;
@@ -154,87 +38,45 @@ void listarJob(job* lista)
 	}
 }
 
-job* removerJob(job* lista, int numJob)
+job* removerJob(job* lista, int numJob) 
 {
-	job* jobAtual = lista, * jobAnterior;
+	job* jobAnterior, *jobAtual = lista;
 
-	while (jobAtual != NULL)
+	while (jobAtual != NULL) 
 	{
 		jobAtual = lista;
 
-		if (jobAtual->nmrJob == numJob) //se for logo a primeira
-		{
-			jobAtual = jobAtual->seguinte;
-			free(jobAtual);
+		if (numJob == lista->nmrJob) 
+		{ 
+			lista = jobAtual->seguinte;
+			free(jobAtual); //Vai liberar espaço onde essa operação está alocada
 		}
-
-		else //se for no meio da lista
-		{
+		else 
+		{ //Remove as seguintes ocurrências
 			jobAnterior = lista;
-			jobAtual = jobAtual->seguinte;
+			jobAtual = jobAnterior->seguinte;
 
-			while (jobAtual != NULL && jobAtual->nmrJob != numJob)
+			while ((jobAtual != NULL) && (jobAtual->nmrJob != numJob)) 
 			{
 				jobAnterior = jobAtual;
+
+				if (jobAnterior->nmrJob > numJob) 
+				{
+					jobAnterior->nmrJob = jobAnterior->nmrJob - 1;
+				}
+
 				jobAtual = jobAtual->seguinte;
 			}
 
-			if (jobAtual != NULL)
-			{
+			if (jobAtual != NULL) {
 				jobAnterior->seguinte = jobAtual->seguinte;
 				free(jobAtual);
+
 			}
 		}
 	}
-}
 
-job* reduzirJob(job* lista, int numJobRemovido)
-{
-	job* jobAtual = lista, * jobAnterior, *novo;
-	int i = 0, numJob;
-
-	while (jobAtual != NULL)
-	{
-		if (jobAtual->nmrJob > numJobRemovido)
-		{
-			while (jobAtual != NULL)
-			{
-				numJob = jobAtual->nmrJob - 1;
-				novo = inserirJob(jobAtual, numJob, jobAtual->nmrOperacao, jobAtual->maquina, jobAtual->unidadeTempo);
-				jobAtual = jobAtual->seguinte;
-				free(jobAtual);
-			}
-		}
-
-		else
-		{
-			jobAnterior = lista;
-			jobAtual = jobAtual->seguinte;
-
-			while (jobAtual != NULL && jobAtual->nmrJob < numJobRemovido)
-			{
-				jobAnterior = jobAtual;
-				jobAtual = jobAtual->seguinte;
-			}
-			if (jobAtual != NULL)
-			{
-				for (i = 0; i == 0; i++) //vai correr apenas uma vez este código.
-				{
-					numJob = jobAtual->nmrJob - 1;
-					novo = inserirJob(jobAtual, numJob, jobAtual->nmrOperacao, jobAtual->maquina, jobAtual->unidadeTempo);
-					jobAnterior->seguinte = novo;
-					jobAtual = jobAtual->seguinte;
-					free(jobAtual);
-				}
-				if (jobAtual->nmrJob > numJobRemovido)
-				{
-					novo = inserirJob(jobAtual, jobAtual->nmrJob - 1, jobAtual->nmrOperacao, jobAtual->maquina, jobAtual->unidadeTempo);
-					jobAtual = jobAtual->seguinte;
-					free(jobAtual);
-				}
-			}
-		}
-	}
+	return(lista);
 }
 
 job* inserirJob(job* inicio, int numeroJob, int numeroOp, int numeroMaq, int numeroTemp)
